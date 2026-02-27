@@ -1,1 +1,1 @@
-This repo contains all of my conversations I have had with AI that I chose to use the /document skill for. /document is a skill that I created that just documents a conversation I had, and commit it to this repo, organized. I will realease this tool one day. 
+This repo contains all of my conversations I have had with AI that I chose to use the /document skill for. /document is a skill that I created that just documents a conversation I had, and commits it to this repo, organized. The skill itself is included in this repo — see [document.md](document.md).
