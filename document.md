@@ -1,5 +1,5 @@
 ---
-description: Document the full conversation between user and Claude verbatim. On completion, commits and pushes to Important-AI-Conversations repo.
+description: Document the full conversation between user and Claude verbatim. On completion, commits and pushes to a configured repo.
 ---
 
 # Document Conversation
@@ -43,18 +43,26 @@ Three content types:
 
 Respond naturally to whatever the user asks — answer questions, write code, analyze files, anything. After each exchange, append everything to the temp file using Edit or Write.
 
-Continue until the user says exactly: **"I am done with documenting."**
+Continue until the user says one of the stop phrases below.
 
-## After "I am done with documenting."
+## Stop Phrases
+
+There are two ways to end a documented session:
+
+1. **"I am done with documenting."** — Commit and push the conversation. Session ends.
+2. **"I am done documenting. Plan."** — Commit and push the conversation, then immediately enter plan mode for whatever topic was being discussed. This preserves context when the user wants to transition from documentation into planning.
+
+## After a Stop Phrase
 
 1. Determine a short descriptive title for the conversation. Kebab-case it for the filename (e.g., `thesis-structure-review.md`).
 2. Replace the `[Placeholder Title]` in the temp file header with the real title.
 3. Calculate the repository folder path from the current date (see below).
 4. Clone, add, commit, and push.
+5. If the stop phrase was **"I am done documenting. Plan."**, after a successful push and cleanup, immediately enter plan mode for the topic that was being discussed in the conversation. Summarize the relevant context from the conversation so far and begin planning.
 
 ### Repository Structure
 
-**Repo:** `https://github.com/jperrello/Documented-AI-Conversations.git`
+**Repo:** Configure your target repository URL here.
 
 **Folder hierarchy:** `MonthYear/WeekN_StartDay#-EndDay#/DayName#/filename.md`
 
@@ -90,7 +98,7 @@ Create any folders that don't exist.
 
 ```bash
 cd /tmp
-git clone https://github.com/jperrello/Documented-AI-Conversations.git iai-conv-temp
+git clone <your-repo-url> iai-conv-temp
 cd iai-conv-temp
 mkdir -p "MonthYear/WeekN_Start-End/DayName#"
 cp /tmp/claude-doc-session.md "full/path/title.md"
@@ -117,5 +125,5 @@ If the push fails, still clean up the clone and temp file, then inform the user 
 - Document EVERYTHING verbatim — user messages, your responses, tool calls.
 - **Never record thinking/reasoning messages.** Only record visible output.
 - Tool calls: fenced code blocks, 250 char max.
-- Only stop on exact phrase "I am done with documenting."
-- Immediately create file and push after stopping — no extra interaction.
+- Only stop on exact stop phrases listed above.
+- Immediately create file and push after stopping — no extra interaction (unless transitioning to plan mode).
